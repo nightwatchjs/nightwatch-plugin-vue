@@ -3,7 +3,7 @@ Vue component testing plugin for Nightwatch
 
 <p align=center>
   <img alt="Nightwatch.js Logo" src="https://raw.githubusercontent.com/nightwatchjs/nightwatch-plugin-vue/main/.github/assets/nightwatch-logo.png" width=200 />
-  <img alt="Vue Logo" src="https://raw.githubusercontent.com/nightwatchjs/nightwatch-plugin-vue/main/.github/assets/vue-logo.svg" width=200 />
+  <img alt="Vue Logo" src="https://raw.githubusercontent.com/nightwatchjs/nightwatch-plugin-vue/main/.github/assets/vuejs-logo.svg" width=200 />
 </p>
 
 [![Build Status][build-badge]][build]
