@@ -6,28 +6,30 @@
   "scripts": {
     "test": "nightwatch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vaibhavsingh97/nightwatch-plugin-vue.git"
+  "publishConfig": {
+    "access": "public"
   },
-  "author": {
-    "name": "Vaibhav Singh",
-    "email": "vaibhav.s@browserstack.com"
-  },
+  "author": "Andrei Rusu",
+  "files": [
+    "lib",
+    "nightwatch",
+    "index.js",
+    "vite.config.js",
+    "LICENSE",
+    "README.md"
+  ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vaibhavsingh97/nightwatch-plugin-vue/issues"
-  },
-  "homepage": "https://github.com/vaibhavsingh97/nightwatch-plugin-vue#readme",
+  "homepage": "https://nightwatchjs.org",
   "devDependencies": {
-    "chromedriver": "^105.0.1",
-    "nightwatch": "^2.3.9",
+    "chromedriver": "^106.0.1",
+    "nightwatch": "^2.4.0-preview.2",
     "vue": "^3.2.40"
   },
   "dependencies": {
+    "@nightwatch/esbuild-utils": "0.1.8",
     "@vitejs/plugin-vue": "^3.1.0",
     "get-port": "^5.1.1",
-    "vite": "^3.1.4",
-    "vite-plugin-nightwatch": "^0.2.12"
+    "vite": "^3.1.3",
+    "vite-plugin-nightwatch": "0.3.0"
   }
 }

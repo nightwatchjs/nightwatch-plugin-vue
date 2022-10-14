@@ -1,15 +1,18 @@
-# nightwatch-vue-plugin
+# @nightwatch/vue 
+Vue component testing plugin for Nightwatch
+
 <p align=center>
-  <img alt="Nightwatch.js Logo" src=".github/assets/nightwatch-logo.svg" width=200 />
-  <img alt="Vuejs Logo" src=".github/assets/vuejs-logo.svg" width=200 />
+  <img alt="Nightwatch.js Logo" src="https://raw.githubusercontent.com/nightwatchjs/nightwatch-plugin-vue/main/.github/assets/nightwatch-logo.png" width=200 />
+  <img alt="Vue Logo" src="https://raw.githubusercontent.com/nightwatchjs/nightwatch-plugin-vue/main/.github/assets/vue-logo.svg" width=200 />
 </p>
 
-<!-- [![Build Status][build-badge]][build]
+[![Build Status][build-badge]][build]
 [![version][version-badge]][package]
 [![Discord][discord-badge]][discord]
-[![MIT License][license-badge]][license] -->
+[![MIT License][license-badge]][license]
 
-Official Nightwatch plugin which adds component testing support for Vue apps. It uses the [Vite](https://vitejs.dev/) dev server under the hood and [vite-plugin-nightwatch](https://github.com/nightwatchjs/vite-plugin-nightwatch). Requires Nightwatch 2.3+
+Official Nightwatch plugin which adds component testing support for Vue apps.
+It uses the [Vite](https://vitejs.dev/) dev server under the hood and [vite-plugin-nightwatch](https://github.com/nightwatchjs/vite-plugin-nightwatch). Requires Nightwatch 2.3+
 
 ```
 npm install @nightwatch/vue
@@ -45,12 +48,11 @@ Read more about [external globals](https://nightwatchjs.org/guide/using-nightwat
 
 **`test/globals.js`:**
 ```js
-const {setup} = require('@nightwatch/vue');
+const {setup, teardown} = require('@nightwatch/vue');
 
-let viteServer;
 module.exports = {
   async before() {
-    viteServer = await setup({
+    const viteServer = await setup({
       // you can optionally pass an existing vite.config.js file
       // viteConfigFile: '../vite.config.js'
     });
@@ -60,7 +62,7 @@ module.exports = {
   },
 
   async after() {
-    await viteServer.close();
+    await teardown();
   }
 }
 ```
@@ -74,33 +76,34 @@ If your project is already based on Vite and you'd like to use the same config f
 Check the [vite-plugin-nightwatch](https://github.com/nightwatchjs/vite-plugin-nightwatch) project for more configuration options.
 
 ## API Commands:
-This plugin includes a few Nightwatch commands which can be used while writing Vue component tests.
+This plugin includes a few Nightwatch commands which can be used while
+writing Vue component tests.
 
-### - browser.mountComponent(componentPath, [options], [callback]):
+### - browser.mountComponent(`componentPath`, `[options]`, `[callback]`):
 **Parameters:**
-- `componentPath` – location of the component file (`.vue`) to be mounted
+- `componentPath` – location of the component file (`.jsx`) to be mounted
 - `options` – this can include:
   - `plugins`: if needed, a store (VueX or Pinia) and a router can be loaded together with the component
-  - `mocks`: this can be a list of url calls that can be mocked (will be passed to [sinon](https://sinonjs.org/) automatically); at the moment only [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) calls can be mocked, but XHR support will be added soon.  
+  - `mocks`: this can be a list of url calls that can be mocked (will be passed to [sinon](https://sinonjs.org/) automatically); at the moment only [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) calls can be mocked, but XHR support will be added soon.
 - `callback` – an optional callback function which will be called with the component element
 
-
 #### Example:
+
 ```js
 const component = await browser.mountComponent('/src/components/Form.vue')
 ```
 
 ```js
-const component = await browser.mountVueComponent('/src/components/Form.vue', {
+const component = await browser.mountComponent('/src/components/Form.vue', {
   plugins: {
     store: '/src/lib/store.js',
-    router: '/src/lib/router.js'
+      router: '/src/lib/router.js'
   },
 
   mocks: {
     '/api/get-user': {
       type: 'fetch',
-      body: {
+        body: {
         data: {
           "firstName": "Jimmy",
           "lastName": "Hendrix"
@@ -109,20 +112,6 @@ const component = await browser.mountVueComponent('/src/components/Form.vue', {
     }
   }
 })
-```
-
-A function or a string can be used for passing props that cannot be serialized. If a function is passed, it will be sent as a `toString()` value.
-```js
-const component = await browser.mountComponent('/src/components/UserInfo.vue', function () {
-  return {
-    date: new Date(),
-    text: 'I hope you enjoy reading Ulysses!',
-    author: {
-      name: 'Leopold Bloom',
-      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/52/Poldy.png'
-    }
-  }
-});
 ```
 
 ### - browser.launchComponentRenderer():
@@ -147,18 +136,10 @@ const formComponent = await browser
 
 Example `scriptToImport.js`:
 ```js
-import {mount} from '/node_modules/@vue/test-utils/dist/vue-test-utils.esm-browser.js'
-import Component from '/test/components/vue/Form.vue'
+import { createApp } from 'vue';
+import App from "/test/components/App.vue";
 
-let element = mount(Component, {
- attachTo: document.getElementById('app'),
- global: {
-   plugins: []
- }
-});
-
-// This will be used by Nightwatch to inspect properties of this component
-window['@component_element'] = element;
+createApp(App).mount("#app");
 ```
 
 ## Debugging Component Tests
@@ -175,7 +156,8 @@ npx nightwatch test/src/userInfoTest.js --devtools --debug
 
 ## Run tests:
 
-Tests for this project are written in Nightwatch so you can inspect them as examples, located in the [tests/src] folder.
+Tests for this project are written in Nightwatch, so you can inspect them as
+examples, located in the [tests/src] folder.
 
 Run them with::
 ```sh
@@ -186,11 +168,11 @@ npm test
 ## License
 MIT
 
-[build-badge]: https://github.com/nightwatchjs/nightwatch-plugin-react/actions/workflows/node.js.yml/badge.svg?branch=main
-[build]: https://github.com/nightwatchjs/nightwatch-plugin-react/actions/workflows/node.js.yml
-[version-badge]: https://img.shields.io/npm/v/@nightwatch/react.svg?style=flat-square
-[package]: https://www.npmjs.com/package/@nightwatch/react
-[license-badge]: https://img.shields.io/npm/l/@nightwatch/react.svg?style=flat-square
-[license]: https://github.com/nightwatchjs/nightwatch-plugin-react/blob/main/LICENSE
+[build-badge]: https://github.com/nightwatchjs/nightwatch-plugin-vue/actions/workflows/node.js.yml/badge.svg?branch=main
+[build]: https://github.com/nightwatchjs/nightwatch-plugin-vue/actions/workflows/node.js.yml
+[version-badge]: https://img.shields.io/npm/v/@nightwatch/vue.svg?style=flat-square
+[package]: https://www.npmjs.com/package/@nightwatch/vue
+[license-badge]: https://img.shields.io/npm/l/@nightwatch/vue.svg?style=flat-square
+[license]: https://github.com/nightwatchjs/nightwatch-plugin-vue/blob/main/LICENSE
 [discord-badge]: https://img.shields.io/discord/618399631038218240.svg?color=7389D8&labelColor=6A7EC2&logo=discord&logoColor=ffffff&style=flat-square
 [discord]: https://discord.gg/SN8Da2X

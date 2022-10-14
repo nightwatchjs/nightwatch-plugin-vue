@@ -1,35 +1,19 @@
-//
-// Refer to the online docs for more details:
-// https://nightwatchjs.org/guide/configuration/nightwatch-configuration-file.html
-//
-//  _   _  _         _      _                     _          _
-// | \ | |(_)       | |    | |                   | |        | |
-// |  \| | _   __ _ | |__  | |_ __      __  __ _ | |_   ___ | |__
-// | . ` || | / _` || '_ \ | __|\ \ /\ / / / _` || __| / __|| '_ \
-// | |\  || || (_| || | | || |_  \ V  V / | (_| || |_ | (__ | | | |
-// \_| \_/|_| \__, ||_| |_| \__|  \_/\_/   \__,_| \__| \___||_| |_|
-//             __/ |
-//            |___/
-//
-
 module.exports = {
   // An array of folders (excluding subfolders) where your tests are located;
   // if this is not specified, the test source must be passed as the second argument to the test runner.
   src_folders: ['test/src'],
 
-  // See https://nightwatchjs.org/guide/concepts/page-object-model.html
+  // See https://nightwatchjs.org/guide/working-with-page-objects/
   page_objects_path: [],
 
-  // See https://nightwatchjs.org/guide/extending-nightwatch/adding-custom-commands.html
+  // See https://nightwatchjs.org/guide/extending-nightwatch/#writing-custom-commands
   custom_commands_path: ['nightwatch/commands'],
 
-  // See https://nightwatchjs.org/guide/extending-nightwatch/adding-custom-assertions.html
+  // See https://nightwatchjs.org/guide/extending-nightwatch/#writing-custom-assertions
   custom_assertions_path: '',
 
-  // See https://nightwatchjs.org/guide/extending-nightwatch/adding-plugins.html
-  // plugins: ["vite-plugin-nightwatch"],
-  
-  // See https://nightwatchjs.org/guide/concepts/test-globals.html#external-test-globals
+
+  // See https://nightwatchjs.org/guide/#external-globals
   globals_path : 'test/globals.js',
 
   webdriver: {},
@@ -37,8 +21,8 @@ module.exports = {
   test_settings: {
     default: {
       disable_error_log: false,
-      launch_url: 'http://localhost:3000',
-
+      launch_url: 'http://localhost:3001',
+      persist_globals: true,
       screenshots: {
         enabled: false,
         path: 'screens',
@@ -46,35 +30,16 @@ module.exports = {
       },
 
       desiredCapabilities: {
-        browserName : 'chrome'
-      },
-
-      webdriver: {
-        start_process: true,
-        server_path: ''
-      }
-    },
-
-    chrome: {
-      desiredCapabilities : {
-        browserName : 'chrome',
-        'goog:chromeOptions' : {
-          // More info on Chromedriver: https://sites.google.com/a/chromium.org/chromedriver/
-          //
-          // w3c:false tells Chromedriver to run using the legacy JSONWire protocol (not required in Chrome 78)
+        browserName: 'chrome',
+        'goog:chromeOptions': {
           w3c: true,
-          args: [
-            //'--no-sandbox',
-            //'--ignore-certificate-errors',
-            //'--allow-insecure-localhost',
-            //'--headless'
-          ]
+          args: []
         }
       },
 
       webdriver: {
         start_process: true,
-        server_path: '',
+        server_path: require('chromedriver').path,
         cli_args: [
           // --verbose
         ]

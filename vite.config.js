@@ -1,5 +1,5 @@
-import vue from '@vitejs/plugin-vue'
-import nightwatchPlugin from 'vite-plugin-nightwatch'
+import vue from '@vitejs/plugin-vue';
+import nightwatchPlugin from 'vite-plugin-nightwatch';
 
 export default {
   optimizeDeps: {
