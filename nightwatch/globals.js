@@ -1,7 +1,6 @@
 const http = require('../lib/setup.js');
 const setup = require('../lib/setup.js');
 
-
 let viteServer;
 const isWorker = process.argv.includes('--test-worker');
 const startViteServer = async (settings = {}) =>{
@@ -10,9 +9,8 @@ const startViteServer = async (settings = {}) =>{
     port: 5173
   }, settings.vite_dev_server || {});
 
-  let vite_port;
   if(settings.vite_dev_server.start_vite) {
-    await setup();
+    viteServer = await setup();
 
     settings.vite_dev_server.port = vite_port = viteServer.config.server.port;
   } else {
@@ -62,7 +60,7 @@ const stopViteServer = async () => {
 }
 
 module.exports = {
-  async beforeEach() {
+  async beforeEach(settings) {
     if(isWorker) {
       await startViteServer.call(this, settings);
     }
