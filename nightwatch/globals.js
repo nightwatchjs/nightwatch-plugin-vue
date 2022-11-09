@@ -9,7 +9,8 @@ const startViteServer = async (settings = {}) =>{
     port: 5173
   }, settings.vite_dev_server || {});
 
-  if(settings.vite_dev_server.start_vite) {
+  let vite_port;
+  if (settings.vite_dev_server.start_vite) {
     viteServer = await setup();
 
     settings.vite_dev_server.port = vite_port = viteServer.config.server.port;
@@ -17,7 +18,7 @@ const startViteServer = async (settings = {}) =>{
     vite_port = settings.vite_dev_server.port; 
     try {
       const enabled = await makeViteRequest(vite_port);
-      if(!enabled) {
+      if (!enabled) {
         const error = new Error('Missing vite-plugin-nightwatch');
         const code = `:
 
@@ -37,7 +38,7 @@ const startViteServer = async (settings = {}) =>{
       }
 
       return true;
-    } catch(err) {
+    } catch (err) {
       const error = new Error('vite dev server is not running: \n  ' + err.message);
       error.help = [`You can configure Nightwatch to start Vite automatically by adding this to your nightwatch.conf.js: 
       vite_dev_server: {
@@ -53,21 +54,21 @@ const startViteServer = async (settings = {}) =>{
 };
 
 const stopViteServer = async () => {
-  if(viteServer) {
+  if (viteServer) {
     await viteServer.close();
     viteServer = null;
   }
-}
+};
 
 module.exports = {
   async beforeEach(settings) {
-    if(isWorker) {
+    if (isWorker) {
       await startViteServer.call(this, settings);
     }
   },
 
   async before(settings) {
-    if(!settings.parallel_mode && !settings.testWorkersEnabled) {
+    if (!settings.parallel_mode && !settings.testWorkersEnabled) {
       await startViteServer.call(this, settings);
     }
   },
@@ -78,11 +79,11 @@ module.exports = {
   },
 
   async afterEach() {
-    if(isWorker) {
+    if (isWorker) {
       await stopViteServer();
     }
   }
-}
+};
 
 function makeViteRequest(port) {
   const options = {
