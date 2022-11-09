@@ -4,21 +4,21 @@ const setup = require('../lib/setup.js');
 
 let viteServer;
 const isWorker = process.argv.includes('--test-worker');
-const startViteServer = async function(settings = {}) {
+const startViteServer = async (settings = {}) =>{
   settings.vite_dev_server = Object.assign({
     start_vite: true,
     port: 5173
   }, settings.vite_dev_server || {});
 
-  let vitePort;
+  let vite_port;
   if(settings.vite_dev_server.start_vite) {
     await setup();
 
-    settings.vite_dev_server.port = vitePort = viteServer.config.server.port;
+    settings.vite_dev_server.port = vite_port = viteServer.config.server.port;
   } else {
-    vitePort = settings.vite_dev_server.port; 
+    vite_port = settings.vite_dev_server.port; 
     try {
-      const enabled = await makeViteRequest(vitePort);
+      const enabled = await makeViteRequest(vite_port);
       if(!enabled) {
         const error = new Error('Missing vite-plugin-nightwatch');
         const code = `:
@@ -51,7 +51,7 @@ const startViteServer = async function(settings = {}) {
     } 
   }
 
-  this.launchUrl = this.baseUrl = `http://localhost:${vitePort}`;
+  this.launchUrl = this.baseUrl = `http://localhost:${vite_port}`;
 };
 
 const stopViteServer = async () => {
