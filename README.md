@@ -1,5 +1,4 @@
 # @nightwatch/vue 
-Vue component testing plugin for Nightwatch
 
 <p align=center>
   <img alt="Nightwatch.js Logo" src="https://raw.githubusercontent.com/nightwatchjs/nightwatch-plugin-vue/main/.github/assets/nightwatch-logo.png" width=200 />
@@ -12,7 +11,7 @@ Vue component testing plugin for Nightwatch
 [![MIT License][license-badge]][license]
 
 Official Nightwatch plugin which adds component testing support for Vue apps.
-It uses the [Vite](https://vitejs.dev/) dev server under the hood and [vite-plugin-nightwatch](https://github.com/nightwatchjs/vite-plugin-nightwatch). Requires Nightwatch 2.3+
+It uses the [Vite](https://vitejs.dev/) dev server under the hood and [vite-plugin-nightwatch](https://github.com/nightwatchjs/vite-plugin-nightwatch). Requires Nightwatch 2.4+
 
 ```
 npm install @nightwatch/vue
@@ -20,7 +19,6 @@ npm install @nightwatch/vue
 
 ## Usage:
 
-### Configuration
 Update your [Nightwatch configuration](https://nightwatchjs.org/guide/configuration/overview.html) and add the plugin to the list:
 
 ```js
@@ -31,49 +29,63 @@ module.exports = {
 }
 ```
 
-### Update your Nightwatch globals file
+### Already using Vite in your project?
+If you already have a Vite project, then the `@nightwatch/vue` plugin will try to use the existing `vite.config.js` or `vite.config.ts`, if either one is found.
 
-If you're not already using external globals with Nightwatch, go ahead and create a new file (e.g. `test/globals.js`) and then set the path in your Nightwatch config file:
+Check the [vite-plugin-nightwatch](https://github.com/nightwatchjs/vite-plugin-nightwatch) project for more configuration options.
+
+Update the `vite.config.js` and add the `vite-plugin-nightwatch` plugin:
 
 ```js
+// vite.config.js
+
+import nightwatchPlugin from 'vite-plugin-nightwatch'
+
+export default {
+  plugins: [
+    // ... other plugins, such as vue()
+    nightwatchPlugin()
+  ]
+})
+```
+### Configuration
+We’ve designed the `@nightwatch/vue` plugin to work with sensible configuration defaults, but in some more advanced scenarios you may need to change some of the config options.
+
+#### Vite dev server
+By default, Nightwatch will attempt to start the Vite dev server automatically. You can disable that by adding the below in your `nightwatch.conf.js` file, under the `vite_dev_server` dictionary.
+
+This is common to other component testing plugins that are based on Vite, such as the `@nightwatch/react` plugin.
+
+```js
+// nightwatch.conf.js
+
 module.exports = {
   plugins: ['@nightwatch/vue'],
-  
-  globals_path: 'test/globals.js'
-  // other nightwatch settings...
-}
-```
-
-Read more about [external globals](https://nightwatchjs.org/guide/using-nightwatch/external-globals.html) on the Nightwatch docs website.
-
-**`test/globals.js`:**
-```js
-const {setup, teardown} = require('@nightwatch/vue');
-
-module.exports = {
-  async before() {
-    const viteServer = await setup({
-      // you can optionally pass an existing vite.config.js file
-      // viteConfigFile: '../vite.config.js'
-    });
-    
-    // This will make sure the launch Url is set correctly when mounting the Vue component
-    this.launchUrl = `http://localhost:${viteServer.config.server.port}`;
-  },
-
-  async after() {
-    await teardown();
+  vite_dev_server: {
+    start_vite: true,
+    port: 5173
   }
 }
 ```
 
-## Already using Vite in your project?
+#### Plugin options
+The plugin accepts a few config options which can be set when working with an existing `vite.config.js` file in the project.
 
-If your project is already based on Vite and you'd like to use the same config file, you can either:
-- pass the `viteConfigFile` property to the `setup()` method in the `before()` hook above
-- run your Vite dev server separately by doing `npm run dev`
+##### - `renderPage`
+Specify the path to a custom test renderer to be used. A default renderer is included in the package, but this option can overwrite that value.
 
-Check the [vite-plugin-nightwatch](https://github.com/nightwatchjs/vite-plugin-nightwatch) project for more configuration options.
+```js
+// vite.config.js
+
+export default {
+  plugins: [
+    // ... other plugins, such as vue() or react()
+    nightwatchPlugin({
+      renderPage: './src/test_renderer.html'
+    })
+  ]
+}
+```
 
 ## API Commands:
 This plugin includes a few Nightwatch commands which can be used while
@@ -145,9 +157,8 @@ createApp(App).mount("#app");
 ## Debugging Component Tests
 Debugging component tests in Nightwatch isn't as straightforward as debugging a regular Node.js application or service, since Nightwatch needs to inject the code to render to component into the browser.
 
-However, for when running the tests in Chrome, you can use the DevTools to do debugging directly in the browser. For this purpose, Nightwatch provide 2 CLI flags:
-- `--devtools` - when this is on, the Chrome DevTools will open automatically
-- `--debug` - this will cause the test execution to pause right after the component is rendered
+However, since Nightwatch v2.4 we provide several ways to inspect and debug the mounted component using the browser devtools console. Refer to the guide page on our docs website for more details:
+https://nightwatchjs.org/guide/component-testing/debugging.html
 
 ### Example:
 ```sh
@@ -163,6 +174,10 @@ Run them with::
 ```sh
 npm test 
 ```
+
+### Example project
+We've put together a basic To-do app written in Vue and built on top of Vite which can be used as a boilerplate. It can be found at [nightwatchjs-community/todo-vue](https://github.com/nightwatchjs-community/todo-vue).
+
 
 
 ## License
