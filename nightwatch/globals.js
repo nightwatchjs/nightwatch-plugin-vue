@@ -1,9 +1,10 @@
-const http = require('../lib/setup.js');
 const setup = require('../lib/setup.js');
+const http = require('http');
 
 let viteServer;
+
 const isWorker = process.argv.includes('--test-worker');
-const startViteServer = async (settings = {}) =>{
+const startViteServer = async function (settings = {}) {
   settings.vite_dev_server = Object.assign({
     start_vite: true,
     port: 5173
@@ -13,11 +14,14 @@ const startViteServer = async (settings = {}) =>{
   if (settings.vite_dev_server.start_vite) {
     viteServer = await setup();
 
+    // This will make sure the launch Url is set correctly when mounting the Vue component
     settings.vite_dev_server.port = vite_port = viteServer.config.server.port;
   } else {
-    vite_port = settings.vite_dev_server.port; 
+    vite_port = settings.vite_dev_server.port;
+
     try {
       const enabled = await makeViteRequest(vite_port);
+
       if (!enabled) {
         const error = new Error('Missing vite-plugin-nightwatch');
         const code = `:
@@ -34,18 +38,21 @@ const startViteServer = async (settings = {}) =>{
     };
     `;
         error.help = ['Please ensure that "vite-plugin-nightwatch" is loaded in your Vite config file ' + code];
+        error.link = 'https://nightwatchjs.org/guide/component-testing/vite-plugin.html';
+
         throw error;
       }
 
       return true;
     } catch (err) {
-      const error = new Error('vite dev server is not running: \n  ' + err.message);
+      const error = new Error('Vite dev server is not running: \n   ' + err.message);
       error.help = [`You can configure Nightwatch to start Vite automatically by adding this to your nightwatch.conf.js: 
       vite_dev_server: {
         start_vite: true,
         port: 5173 
       }
       `];
+      error.link = 'https://nightwatchjs.org/guide/component-testing/vite-plugin.html';
       throw error;
     } 
   }
