@@ -1,5 +1,7 @@
 import { NightwatchAPI, Element } from 'nightwatch';
 
+type RecordObject = Record<string, any>;
+
 declare module 'nightwatch' {
   interface NightwatchAPI {
     importScript(
@@ -7,9 +9,9 @@ declare module 'nightwatch' {
       options: { scriptType: string; componentType: string },
       callback?: () => void
     ): this;
-    mountComponent<TProps extends Record<string, any>>(
+    mountComponent(
       componentPath: string,
-      props?: TProps,
+      options?: { plugins: RecordObject; mocks: RecordObject },
       callback?: () => void
     ): Element;
     launchComponentRenderer(): this;
