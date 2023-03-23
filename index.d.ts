@@ -12,8 +12,8 @@ declare module 'nightwatch' {
     mountComponent(
       componentPath: string,
       options?: { plugins: RecordObject; mocks: RecordObject },
-      callback?: () => void
-    ): Element;
+      callback?: (this: NightwatchAPI, result: Element) => void
+    ): Awaitable<this, Element>;
     launchComponentRenderer(): this;
   }
 }
