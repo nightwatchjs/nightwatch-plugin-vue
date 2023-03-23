@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@nightwatch/esbuild-utils": "^0.2.1",
+    "@types/nightwatch": "^2.3.22",
     "@vitejs/plugin-vue": "^4.1.0",
     "get-port": "^5.1.1",
     "vite": "^4.2.1",
