@@ -27,17 +27,17 @@
   "homepage": "https://nightwatchjs.org",
   "types": "index.d.ts",
   "devDependencies": {
-    "chromedriver": "^111.0.0",
-    "eslint": "^8.36.0",
-    "nightwatch": "^2.6.18",
+    "chromedriver": "^112.0.0",
+    "eslint": "^8.38.0",
+    "nightwatch": "^2.6.20",
     "vue": "^3.2.47"
   },
   "dependencies": {
     "@nightwatch/esbuild-utils": "^0.2.1",
-    "@types/nightwatch": "^2.3.22",
+    "@types/nightwatch": "^2.3.23",
     "@vitejs/plugin-vue": "^4.1.0",
     "get-port": "^5.1.1",
-    "vite": "^4.2.1",
+    "vite": "^4.3.0",
     "vite-plugin-nightwatch": "^0.4.2"
   }
 }
