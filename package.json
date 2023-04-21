@@ -19,6 +19,7 @@
     "lib",
     "nightwatch",
     "index.js",
+    "index.d.ts",
     "vite.config.js",
     "LICENSE",
     "README.md"
