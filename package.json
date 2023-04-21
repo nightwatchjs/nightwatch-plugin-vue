@@ -2,6 +2,10 @@
   "name": "@nightwatch/vue",
   "version": "0.4.1",
   "description": "Nightwatch plugin which adds support for Vue component testing using the Vite dev server. Requires Nightwatch 2.0+",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nightwatchjs/nightwatch-plugin-vue.git"
+  },
   "main": "index.js",
   "scripts": {
     "eslint": "eslint index.js nightwatch.conf.js nightwatch lib",
@@ -21,17 +25,19 @@
   ],
   "license": "MIT",
   "homepage": "https://nightwatchjs.org",
+  "types": "index.d.ts",
   "devDependencies": {
     "chromedriver": "^112.0.0",
-    "eslint": "^8.27.0",
-    "nightwatch": "^2.4.2",
-    "vue": "^3.2.40"
+    "eslint": "^8.38.0",
+    "nightwatch": "^2.6.20",
+    "vue": "^3.2.47"
   },
   "dependencies": {
-    "@nightwatch/esbuild-utils": "^0.2.0",
-    "@vitejs/plugin-vue": "^4.0.0",
+    "@nightwatch/esbuild-utils": "^0.2.1",
+    "@types/nightwatch": "^2.3.23",
+    "@vitejs/plugin-vue": "^4.1.0",
     "get-port": "^5.1.1",
-    "vite": "^4.0.4",
+    "vite": "^4.3.1",
     "vite-plugin-nightwatch": "^0.4.3"
   }
 }
