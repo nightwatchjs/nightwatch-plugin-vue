@@ -13,7 +13,7 @@ declare module 'nightwatch' {
     mountComponent(
       componentPath: string,
       options?: {
-        props?: Pick<MountingOptions<any>, 'props'>;
+        props?: MountingOptions<Record<string, any>>['props'];
         plugin?: Pick<GlobalMountOptions, 'plugins'>;
         mocks?: Pick<GlobalMountOptions, 'mocks'>;
       },
