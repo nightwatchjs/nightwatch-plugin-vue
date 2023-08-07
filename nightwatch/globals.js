@@ -75,7 +75,7 @@ module.exports = {
   },
 
   async before(settings) {
-    if (!settings.parallel_mode && !settings.testWorkersEnabled) {
+    if ((!settings.parallel_mode && !settings.testWorkersEnabled) || !isWorker) {
       await startViteServer.call(this, settings);
     }
   },
