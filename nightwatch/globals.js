@@ -56,8 +56,6 @@ const startViteServer = async function (settings = {}) {
       throw error;
     } 
   }
-
-  this.launchUrl = this.baseUrl = `http://localhost:${vite_port}`;
 };
 
 const stopViteServer = async () => {
