@@ -29,7 +29,7 @@
   "types": "index.d.ts",
   "devDependencies": {
     "eslint": "^8.38.0",
-    "nightwatch": "3.0.1",
+    "nightwatch": "^3.3.8",
     "vue": "^3.2.47"
   },
   "dependencies": {
