@@ -29,7 +29,7 @@
   "types": "index.d.ts",
   "devDependencies": {
     "eslint": "^8.38.0",
-    "nightwatch": "3.0.1",
+    "nightwatch": "^3.3.8",
     "vue": "^3.2.47"
   },
   "dependencies": {
@@ -37,7 +37,7 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "get-port": "^5.1.1",
     "vite": "^4.3.1",
-    "vite-plugin-nightwatch": "0.4.5"
+    "vite-plugin-nightwatch": "^0.4.6"
   },
   "optionalDependencies": {
     "@esbuild/android-arm": "^0.17.19"
