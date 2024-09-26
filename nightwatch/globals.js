@@ -56,8 +56,6 @@ const startViteServer = async function (settings = {}) {
       throw error;
     } 
   }
-
-  this.launchUrl = this.baseUrl = `http://localhost:${vite_port}`;
 };
 
 const stopViteServer = async () => {
@@ -75,7 +73,7 @@ module.exports = {
   },
 
   async before(settings) {
-    if (!settings.parallel_mode && !settings.testWorkersEnabled) {
+    if ((!settings.parallel_mode && !settings.testWorkersEnabled) || !isWorker) {
       await startViteServer.call(this, settings);
     }
   },
